@@ -237,15 +237,17 @@ Write-Host "`nEnter your GOOGLE_API_KEY for rag-node." -ForegroundColor Cyan
 Write-Host "Note: This key will NOT be stored or transmitted to any Godspeed server." -ForegroundColor Yellow
 Write-Host "It will remain saved only in the local '.env' file on your machine." -ForegroundColor Yellow
 
-# Masked input
+# Secure input
 $secureKey = Read-Host -Prompt "GOOGLE_API_KEY (input hidden)" -AsSecureString
 
 # Convert to plain text
-$plainKey = [Runtime.InteropServices.Marshal]::PtrToStringAuto(
-    [Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureKey)
-)
+$unmanagedPointer = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureKey)
+$plainKey = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($unmanagedPointer)
 
-# Set up .env file in rag-node directory
+# Clean up unmanaged memory
+[System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($unmanagedPointer)
+
+# Write to .env file
 $envFilePath = Join-Path $ragNodeDir ".env"
 try {
     Write-Host "Writing GOOGLE_API_KEY to .env file..."
@@ -255,7 +257,6 @@ try {
     Write-Host "Failed to write .env file: $_" -ForegroundColor Red
     exit
 }
-
 #endregion
 
 # Final checks
