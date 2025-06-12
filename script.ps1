@@ -251,6 +251,19 @@ try {
     Write-Host "Failed to write .env file: $_" -ForegroundColor Red
     exit
 }
+
+# Run `pnpm install` inside the rag-node directory
+try {
+    Write-Host "`nInstalling dependencies inside rag-node using pnpm..." -ForegroundColor Cyan
+    Push-Location $ragNodeDir
+    pnpm install
+    Pop-Location
+    Write-Host "Dependencies installed successfully." -ForegroundColor Green
+} catch {
+    Write-Host "Failed to run 'pnpm install' in rag-node: $_" -ForegroundColor Red
+    exit
+}
+
 #endregion
 
 # Final checks
