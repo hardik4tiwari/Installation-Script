@@ -236,17 +236,10 @@ if (-not (Test-Path $ragNodeDir)) {
 # Prompt user for GOOGLE_API_KEY with masking
 Write-Host "`nEnter your GOOGLE_API_KEY for rag-node." -ForegroundColor Cyan
 Write-Host "Note: This key will NOT be stored or transmitted to any Godspeed server." -ForegroundColor Yellow
-Write-Host "It will remain saved only in the local '.env' file on your machine." -ForegroundColor Yellow
+Write-Host "It will remain saved ONLY in the local '.env' file on your machine." -ForegroundColor Yellow
+# Write-Host "Paste your key below:" -ForegroundColor Cyan
 
-# Secure input
-$secureKey = Read-Host -Prompt "GOOGLE_API_KEY" -AsSecureString
-
-# Convert to plain text
-$unmanagedPointer = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureKey)
-$plainKey = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($unmanagedPointer)
-
-# Clean up unmanaged memory
-[System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($unmanagedPointer)
+$plainKey = Read-Host -Prompt "GOOGLE_API_KEY"
 
 # Write to .env file
 $envFilePath = Join-Path $ragNodeDir ".env"
