@@ -187,9 +187,14 @@ print_message ""
 print_message "Enter your GOOGLE_API_KEY for rag-node."
 print_warning "Note: This key will NOT be stored or sent to any server. It will only be written to a local .env file."
 
-# Prompt with silent input (no echo)
-read -s -p "GOOGLE_API_KEY: " GOOGLE_API_KEY
-echo ""
+# Prompt with silent input (works in most interactive shells)
+while [[ -z "$GOOGLE_API_KEY" ]]; do
+  read -rs -p "GOOGLE_API_KEY: " GOOGLE_API_KEY
+  echo ""
+  if [[ -z "$GOOGLE_API_KEY" ]]; then
+    print_error "API key cannot be empty. Please try again."
+  fi
+done
 
 # Write to .env file in the rag-node directory
 ENV_FILE="$RAG_NODE_DIR/.env"
