@@ -214,18 +214,10 @@ Write-Host "Daemon installation completed successfully!" -ForegroundColor Green
 #endregion
 
 
-
-#pnpm global directory setup
-Write-Host "Setting up pnpm global directory..." -ForegroundColor Cyan
-pnpm setup
-
-# Reload environment
-$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-
 #region RAG Node Installation and .env Setup
-Write-Host "`nInstalling rag-node using pnpm..." -ForegroundColor Cyan
+Write-Host "Installing rag-node ...." -ForegroundColor Cyan
 try {
-    pnpm add -g rag-node
+    npm install -g rag-node --legacy-peer-deps
 } catch {
     Write-Host "rag-node installation failed: $_" -ForegroundColor Red
     exit
@@ -233,7 +225,7 @@ try {
 
 # Locate global pnpm install directory
 Write-Host "Locating global rag-node installation directory..."
-$pnpmPrefix = cmd /c "pnpm prefix -g"
+$pnpmPrefix = cmd /c "npm prefix -g"
 $ragNodeDir = Join-Path $pnpmPrefix "node_modules\rag-node"
 
 if (-not (Test-Path $ragNodeDir)) {
@@ -247,7 +239,7 @@ Write-Host "Note: This key will NOT be stored or transmitted to any Godspeed ser
 Write-Host "It will remain saved only in the local '.env' file on your machine." -ForegroundColor Yellow
 
 # Secure input
-$secureKey = Read-Host -Prompt "GOOGLE_API_KEY (input hidden)" -AsSecureString
+$secureKey = Read-Host -Prompt "GOOGLE_API_KEY" -AsSecureString
 
 # Convert to plain text
 $unmanagedPointer = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureKey)
