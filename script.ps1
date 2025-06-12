@@ -213,6 +213,15 @@ if (-not (Test-Path $servicesJson)) {
 Write-Host "Daemon installation completed successfully!" -ForegroundColor Green
 #endregion
 
+
+
+#pnpm global directory setup
+Write-Host "Setting up pnpm global directory..." -ForegroundColor Cyan
+pnpm setup
+
+# Reload environment
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+
 #region RAG Node Installation and .env Setup
 Write-Host "`nInstalling rag-node using pnpm..." -ForegroundColor Cyan
 try {
