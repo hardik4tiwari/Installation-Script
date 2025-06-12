@@ -214,37 +214,48 @@ Write-Host "Daemon installation completed successfully!" -ForegroundColor Green
 #endregion
 
 #region RAG Node Installation and .env Setup
-Write-Host "`nInstalling rag-node..." -ForegroundColor Cyan
+Write-Host "`nInstalling rag-node using pnpm..." -ForegroundColor Cyan
 try {
-    npm install -g rag-node
+    pnpm add -g rag-node
 } catch {
     Write-Host "rag-node installation failed: $_" -ForegroundColor Red
     exit
 }
 
-# Locate global npm install directory
+# Locate global pnpm install directory
 Write-Host "Locating global rag-node installation directory..."
-$npmPrefix = cmd /c "npm prefix -g"
-$ragNodeDir = Join-Path $npmPrefix "node_modules\rag-node"
+$pnpmPrefix = cmd /c "pnpm prefix -g"
+$ragNodeDir = Join-Path $pnpmPrefix "node_modules\rag-node"
 
 if (-not (Test-Path $ragNodeDir)) {
     Write-Host "rag-node installation directory not found at expected location: $ragNodeDir" -ForegroundColor Red
     exit
 }
 
-# Prompt user for GOOGLE_API_KEY
-$googleApiKey = Read-Host -Prompt "Enter your GOOGLE_API_KEY for rag-node"
+# Prompt user for GOOGLE_API_KEY with masking
+Write-Host "`nEnter your GOOGLE_API_KEY for rag-node." -ForegroundColor Cyan
+Write-Host "Note: This key will NOT be stored or transmitted to any Godspeed server." -ForegroundColor Yellow
+Write-Host "It will remain saved only in the local '.env' file on your machine." -ForegroundColor Yellow
+
+# Masked input
+$secureKey = Read-Host -Prompt "GOOGLE_API_KEY (input hidden)" -AsSecureString
+
+# Convert to plain text
+$plainKey = [Runtime.InteropServices.Marshal]::PtrToStringAuto(
+    [Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureKey)
+)
 
 # Set up .env file in rag-node directory
 $envFilePath = Join-Path $ragNodeDir ".env"
 try {
     Write-Host "Writing GOOGLE_API_KEY to .env file..."
-    Set-Content -Path $envFilePath -Value "GOOGLE_API_KEY=$googleApiKey"
+    Set-Content -Path $envFilePath -Value "GOOGLE_API_KEY=$plainKey"
     Write-Host ".env file created at $envFilePath" -ForegroundColor Green
 } catch {
     Write-Host "Failed to write .env file: $_" -ForegroundColor Red
     exit
 }
+
 #endregion
 
 # Final checks
