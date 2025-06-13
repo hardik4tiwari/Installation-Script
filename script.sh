@@ -157,10 +157,10 @@ if [[ "$OS_TYPE" == "macos" ]]; then
 fi
 
 # Daemon config file
-mkdir -p "$HOME/.godspeed"
-if [ ! -f "$HOME/.godspeed/services.json" ]; then
-    echo '{ "services": [] }' > "$HOME/.godspeed/services.json"
-fi
+# mkdir -p "$HOME/.godspeed"
+# if [ ! -f "$HOME/.godspeed/services.json" ]; then
+#     echo '{ "services": [] }' > "$HOME/.godspeed/services.json"
+# fi
 
 print_success "Daemon installation completed successfully!"
 print_success "Godspeed CLI version: $(godspeed --version)"
