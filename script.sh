@@ -199,7 +199,7 @@ echo "GOOGLE_API_KEY=$GOOGLE_API_KEY" > "$ENV_FILE"
 print_success ".env file created at $ENV_FILE"
 
 # Run `pnpm install` inside rag-node
-print_message "Running 'pnpm install' inside rag-node directory..."
+print_message "installling dependencies..."
 pushd "$RAG_NODE_DIR" > /dev/null
 pnpm install
 popd > /dev/null
