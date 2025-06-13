@@ -152,7 +152,7 @@ if [[ "$OS_TYPE" == "macos" ]]; then
 else
     sudo mkdir -p "$TARGET_DIR"
     sudo curl -L "$DAEMON_URL" -o "$DESTINATION_PATH"
-    chmod +x "$DESTINATION_PATH"
+    # chmod +x "$DESTINATION_PATH"
 fi
     
 
