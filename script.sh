@@ -198,12 +198,12 @@ echo "GOOGLE_API_KEY=$GOOGLE_API_KEY" > "$ENV_FILE"
 
 print_success ".env file created at $ENV_FILE"
 
-# Run `pnpm install` inside rag-node
-print_message "installling dependencies..."
-pushd "$RAG_NODE_DIR" > /dev/null
-pnpm install
-popd > /dev/null
-print_success "rag-node installation completed successfully!"
+# # Run `pnpm install` inside rag-node
+# print_message "installling dependencies..."
+# pushd "$RAG_NODE_DIR" > /dev/null
+# pnpm install
+# popd > /dev/null
+# print_success "rag-node installation completed successfully!"
 
 
 print_success "Godspeed CLI version: $(godspeed --version)"
