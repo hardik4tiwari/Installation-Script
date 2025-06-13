@@ -251,14 +251,27 @@ try {
     Write-Host "Failed to write .env file: $_" -ForegroundColor Red
     exit
 }
+
+# Run `pnpm install` inside the rag-node directory
+try {
+    Write-Host "`nInstalling dependencies inside rag-node using pnpm..." -ForegroundColor Cyan
+    Push-Location $ragNodeDir
+    pnpm install
+    Pop-Location
+    Write-Host "Dependencies installed successfully." -ForegroundColor Green
+} catch {
+    Write-Host "Failed to run 'pnpm install' in rag-node: $_" -ForegroundColor Red
+    exit
+}
+
 #endregion
 
 # Final checks
 Write-Host "`nVerifying installations..." -ForegroundColor Cyan
+Write-Host "Godspeed CLI version: $(godspeed --version)"
 Write-Host "Node.js version: $(node -v)"
 Write-Host "npm version: $(npm -v)"
 Write-Host "Git version: $(git --version)"
-Write-Host "Godspeed CLI version: $(godspeed --version)"
 
 Write-Host "`nInstallation complete! Please restart your terminal for all changes to take effect." -ForegroundColor Green
 
