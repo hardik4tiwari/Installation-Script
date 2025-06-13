@@ -144,9 +144,17 @@ else
 fi
 
 DESTINATION_PATH="$TARGET_DIR/godspeed-daemon"
-mkdir -p "$TARGET_DIR"
-curl -L "$DAEMON_URL" -o "$DESTINATION_PATH"
-chmod +x "$DESTINATION_PATH"
+
+if [[ "$OS_TYPE" == "macos" ]]; then
+    mkdir -p "$TARGET_DIR"
+    curl -L "$DAEMON_URL" -o "$DESTINATION_PATH"
+    chmod +x "$DESTINATION_PATH"
+else
+    sudo mkdir -p "$TARGET_DIR"
+    sudo curl -L "$DAEMON_URL" -o "$DESTINATION_PATH"
+    chmod +x "$DESTINATION_PATH"
+fi
+    
 
 # Add to PATH if needed
 if [[ "$OS_TYPE" == "macos" ]]; then
@@ -157,10 +165,10 @@ if [[ "$OS_TYPE" == "macos" ]]; then
 fi
 
 # Daemon config file
-# mkdir -p "$HOME/.godspeed"
-# if [ ! -f "$HOME/.godspeed/services.json" ]; then
-#     echo '{ "services": [] }' > "$HOME/.godspeed/services.json"
-# fi
+mkdir -p "$HOME/.godspeed"
+if [ ! -f "$HOME/.godspeed/services.json" ]; then
+    echo '{ "services": [] }' > "$HOME/.godspeed/services.json"
+fi
 
 print_success "Daemon installation completed successfully!"
 print_success "Godspeed CLI version: $(godspeed --version)"
