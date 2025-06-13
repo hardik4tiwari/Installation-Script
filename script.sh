@@ -107,7 +107,7 @@ if ! command -v git &> /dev/null; then
     if [[ "$OS_TYPE" == "macos" ]]; then
         brew install git
     else
-        apt-get update && apt-get install -y git
+        sudo apt-get update && sudo apt-get install -y git
     fi
 fi
 
