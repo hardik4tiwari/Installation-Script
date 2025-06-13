@@ -15,10 +15,10 @@ print_warning() { echo -e "${YELLOW}$1${NC}"; }
 print_error() { echo -e "${RED}$1${NC}"; }
 
 # Check sudo on Linux
-if [[ "$OSTYPE" == "linux-gnu"* && "$EUID" -ne 0 ]]; then 
-    print_error "Please run this script with sudo: sudo $0"
-    exit 1
-fi
+# if [[ "$OSTYPE" == "linux-gnu"* && "$EUID" -ne 0 ]]; then 
+#     print_error "Please run this script with sudo: sudo $0"
+#     exit 1
+# fi
 
 # Detect OS
 if [[ "$OSTYPE" == "darwin"* ]]; then
