@@ -258,7 +258,7 @@ Write-Host "`nVerifying installations..." -ForegroundColor Cyan
 Write-Host "Node.js version: $(node -v)"
 Write-Host "npm version: $(npm -v)"
 Write-Host "Git version: $(git --version)"
-Write-Host "Godspeed version: $(godspeed --version)"
+Write-Host "Godspeed CLI version: $(godspeed --version)"
 
 Write-Host "`nInstallation complete! Please restart your terminal for all changes to take effect." -ForegroundColor Green
 
