@@ -171,7 +171,7 @@ echo "  godspeed-daemon"
 
 # rag-node Installation and .env Setup
 print_message "Installing rag-node..."
-npm install -g rag-node --legacy-peer-deps
+npm install -g rag-node
 
 # Locate global installation directory
 print_message "Locating global rag-node installation directory..."
@@ -199,11 +199,11 @@ echo "GOOGLE_API_KEY=$GOOGLE_API_KEY" > "$ENV_FILE"
 print_success ".env file created at $ENV_FILE"
 
 # Run `pnpm install` inside rag-node
-print_message "Running 'pnpm install' inside rag-node directory..."
-pushd "$RAG_NODE_DIR" > /dev/null
-pnpm install
-popd > /dev/null
-print_success "rag-node installation completed successfully!"
+# print_message "Running 'pnpm install' inside rag-node directory..."
+# pushd "$RAG_NODE_DIR" > /dev/null
+# pnpm install
+# popd > /dev/null
+# print_success "rag-node installation completed successfully!"
 
 
 print_success "Godspeed CLI version: $(godspeed --version)"
