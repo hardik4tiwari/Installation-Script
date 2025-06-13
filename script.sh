@@ -14,12 +14,6 @@ print_success() { echo -e "${GREEN}$1${NC}"; }
 print_warning() { echo -e "${YELLOW}$1${NC}"; }
 print_error() { echo -e "${RED}$1${NC}"; }
 
-# Check sudo on Linux
-# if [[ "$OSTYPE" == "linux-gnu"* && "$EUID" -ne 0 ]]; then 
-#     print_error "Please run this script with sudo: sudo $0"
-#     exit 1
-# fi
-
 # Detect OS
 if [[ "$OSTYPE" == "darwin"* ]]; then
     OS_TYPE="macos"
@@ -171,7 +165,6 @@ if [ ! -f "$HOME/.godspeed/services.json" ]; then
 fi
 
 print_success "Daemon installation completed successfully!"
-print_success "Godspeed CLI version: $(godspeed --version)"
 
 print_message "To use the Godspeed daemon, run:"
 echo "  godspeed-daemon"
@@ -210,7 +203,8 @@ print_message "Running 'pnpm install' inside rag-node directory..."
 pushd "$RAG_NODE_DIR" > /dev/null
 pnpm install
 popd > /dev/null
-print_success "'pnpm install' completed in rag-node"
+print_success "rag-node installation completed successfully!"
 
 
+print_success "Godspeed CLI version: $(godspeed --version)"
 print_success "Installation complete! Please restart your terminal for all changes to apply."
