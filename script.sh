@@ -128,45 +128,45 @@ if ! command -v godspeed &> /dev/null; then
     exit 1
 fi
 
-# # Daemon Installation
-# print_message "Starting Daemon Installation..."
+# Daemon Installation
+print_message "Starting Daemon Installation..."
 
-# if [[ "$OS_TYPE" == "macos" ]]; then
-#     if [[ $(uname -m) == 'arm64' ]]; then
-#         DAEMON_URL="https://github.com/zero8dotdev/install-godspeed-daemon/releases/download/v1.1.2/godspeed-daemon-macos-arm64"
-#     else
-#         DAEMON_URL="https://github.com/zero8dotdev/install-godspeed-daemon/releases/download/v1.1.2/godspeed-daemon-macos"
-#     fi
-#     TARGET_DIR="$HOME/.local/bin"
-# else
-#     DAEMON_URL="https://github.com/zero8dotdev/install-godspeed-daemon/releases/download/v1.1.2/godspeed-daemon-linux"
-#     TARGET_DIR="/usr/local/bin"
-# fi
+if [[ "$OS_TYPE" == "macos" ]]; then
+    if [[ $(uname -m) == 'arm64' ]]; then
+        DAEMON_URL="https://github.com/zero8dotdev/install-godspeed-daemon/releases/download/v1.1.2/godspeed-daemon-macos-arm64"
+    else
+        DAEMON_URL="https://github.com/zero8dotdev/install-godspeed-daemon/releases/download/v1.1.2/godspeed-daemon-macos"
+    fi
+    TARGET_DIR="$HOME/.local/bin"
+else
+    DAEMON_URL="https://github.com/zero8dotdev/install-godspeed-daemon/releases/download/v1.1.2/godspeed-daemon-linux"
+    TARGET_DIR="/usr/local/bin"
+fi
 
-# DESTINATION_PATH="$TARGET_DIR/godspeed-daemon"
-# mkdir -p "$TARGET_DIR"
-# curl -L "$DAEMON_URL" -o "$DESTINATION_PATH"
-# chmod +x "$DESTINATION_PATH"
+DESTINATION_PATH="$TARGET_DIR/godspeed-daemon"
+mkdir -p "$TARGET_DIR"
+curl -L "$DAEMON_URL" -o "$DESTINATION_PATH"
+chmod +x "$DESTINATION_PATH"
 
-# # Add to PATH if needed
-# if [[ "$OS_TYPE" == "macos" ]]; then
-#     if ! grep -q "$TARGET_DIR" ~/.zshrc; then
-#         echo "export PATH=\"\$PATH:$TARGET_DIR\"" >> ~/.zshrc
-#     fi
-#     export PATH="$PATH:$TARGET_DIR"
-# fi
+# Add to PATH if needed
+if [[ "$OS_TYPE" == "macos" ]]; then
+    if ! grep -q "$TARGET_DIR" ~/.zshrc; then
+        echo "export PATH=\"\$PATH:$TARGET_DIR\"" >> ~/.zshrc
+    fi
+    export PATH="$PATH:$TARGET_DIR"
+fi
 
-# # Daemon config file
-# mkdir -p "$HOME/.godspeed"
-# if [ ! -f "$HOME/.godspeed/services.json" ]; then
-#     echo '{ "services": [] }' > "$HOME/.godspeed/services.json"
-# fi
+# Daemon config file
+mkdir -p "$HOME/.godspeed"
+if [ ! -f "$HOME/.godspeed/services.json" ]; then
+    echo '{ "services": [] }' > "$HOME/.godspeed/services.json"
+fi
 
-# print_success "Daemon installation completed successfully!"
-# print_success "Godspeed CLI version: $(godspeed --version)"
+print_success "Daemon installation completed successfully!"
+print_success "Godspeed CLI version: $(godspeed --version)"
 
-# print_message "To use the Godspeed daemon, run:"
-# echo "  godspeed-daemon"
+print_message "To use the Godspeed daemon, run:"
+echo "  godspeed-daemon"
 
 # rag-node Installation and .env Setup
 print_message "Installing rag-node..."
