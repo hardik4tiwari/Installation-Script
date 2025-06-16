@@ -8,6 +8,9 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m'
+# Rag Node Dir 
+PNPM_PREFIX=$(npm prefix -g)
+RAG_NODE_DIR="$PNPM_PREFIX/lib/node_modules/rag-node"
 
 print_message() { echo -e "${CYAN}$1${NC}"; }
 print_success() { echo -e "${GREEN}$1${NC}"; }
@@ -175,8 +178,24 @@ npm install -g rag-node
 
 # Locate global installation directory
 print_message "Locating global rag-node installation directory..."
-PNPM_PREFIX=$(npm prefix -g)
-RAG_NODE_DIR="$PNPM_PREFIX/lib/node_modules/rag-node"
+
+#Adding path to RC file 
+if [ "$OSTYPE" = "macos" ]; then
+    if ! grep -q "RAG_NODE_DIR" "$HOME/.zshrc"; then
+        echo 'export RAG_NODE_DIR="$RAG_NODE_DIR"' >> "$HOME/.zshrc"
+        echo "RAG_NODE_DIR added to .zshrc"
+    else
+        echo "RAG_NODE_DIR already present in .zshrc"
+    fi
+elif [ "$OSTYPE" = "linux" ]; then
+    if ! grep -q "RAG_NODE_DIR" "$HOME/.bashrc"; then
+        echo 'export RAG_NODE_DIR="$RAG_NODE_DIR"' >> "$HOME/.bashrc"
+        echo "RAG_NODE_DIR added to .bashrc"
+    else
+        echo "RAG_NODE_DIR already present in .bashrc"
+    fi
+fi
+
 
 if [[ ! -d "$RAG_NODE_DIR" ]]; then
     print_error "rag-node installation directory not found at $RAG_NODE_DIR"
